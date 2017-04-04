@@ -17,6 +17,7 @@ body {
 
 }
 
+/* Graphics for the Footer of the Main Page*/
 .bottom-column-left{
   float: left;
   width: 33%;
@@ -40,11 +41,12 @@ color: white;
   font-size: 21px
   color: white;
   padding-top: 40px;
-  padding-left: 30px;
+  padding-left: 200px;
 }
 #facebookicon{
   padding-left: 20px;
 }
+
 article,
 aside,
 details,
