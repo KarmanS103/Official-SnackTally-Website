@@ -31,11 +31,14 @@ if($password != $passver)
   $passErr = "Passwords do not match";
 }
 
-if(preg_match($username))
+if(preg_match($username)==1)
 {
-  $nameErr = "Username has";
+  $nameErr = "Username cannot have spaces";
 }
 
+$select = mysql_query("SELECT `email` FROM `game` WHERE `email` = '$email'") or exit(mysql_error());
+if(mysql_num_rows($select))
+    $emailErr = "Email already exists";
 
 if($password == $passver){
 $query = "INSERT INTO `SnackTally`.`User` (`Email`, `First Name`,
