@@ -14,8 +14,6 @@ else {
   echo "Connected To Database";
 }
 
-
-
 $email = $_POST["Email"];
 $username = $_POST["USN"];
 $password = $_POST["Pass"];
@@ -29,7 +27,8 @@ if($password != $passver)
   $passErr = "Passwords do not match";
   $gate = False;
 } else {
-  $email = filter($email);
+  $password = filter($password);
+  $passver = filter($passver);
 }
 
 if(preg_match($username)==1)
@@ -41,7 +40,7 @@ if(preg_match($username)==1)
 }
 
 $select = mysqli_query($con, "SELECT `Email` FROM `SnackTally`.`User` WHERE `Email` = '$email'");
-if(mysqli_num_rows($result) > 0)
+if(mysqli_fetch_row($select) > 0)
 {
     $emailErr = "Email already exists";
     $gate = False;
@@ -49,11 +48,9 @@ if(mysqli_num_rows($result) > 0)
   $email = filter($email);
 }
 
-if($password == $passver){
 $query = "INSERT INTO `SnackTally`.`User` (`Email`, `First Name`,
   `Last Name`, `Photo`, `Pass`, `Username`, `GroupID`)
   VALUES ('$email', 'test', 'test', NULL, '$password', '$username', 0)";
-}
 
 function filter($data) {
    $data = trim($data);
