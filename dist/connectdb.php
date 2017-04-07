@@ -19,13 +19,16 @@ $username = $_POST["USN"];
 $password = $_POST["Pass"];
 $passver = $_POST["PassVer"];
 
-$gate = True;
+#$gate = TRUE;
 
-$nameErr = $emailErr = $passErr = $websiteErr = "";
+$nameErr = "";
+$emailErr = "";
+$passErr = "";
+
 if($password != $passver)
 {
   $passErr = "Passwords do not match";
-  $gate = False;
+  #$gate = FALSE;
 } else {
   $password = filter($password);
   $passver = filter($passver);
@@ -34,18 +37,22 @@ if($password != $passver)
 if(preg_match($username)==1)
 {
   $nameErr = "Username cannot have spaces";
-  $gate = False;
+  #$gate = FALSE;
 } else {
   $username = filter($username);
 }
 
-$select = mysqli_query($con, "SELECT `Email` FROM `SnackTally`.`User` WHERE `Email` = '$email'");
-if(mysqli_fetch_row($select) > 0)
+$emailver = "SELECT `Email` FROM `SnackTally`.`User` WHERE `Email` = '$email'";
+
+if($select = mysqli_query($con, $emailver)){
+if(mysqli_fetch_assoc($select) > 0)
 {
     $emailErr = "Email already exists";
-    $gate = False;
+    #$gate = FALSE;
 } else {
   $email = filter($email);
+}
+mysqli_free_result($result);
 }
 
 $query = "INSERT INTO `SnackTally`.`User` (`Email`, `First Name`,
@@ -56,6 +63,7 @@ function filter($data) {
    $data = trim($data);
    $data = stripslashes($data);
    $data = htmlspecialchars($data);
+   return $data;
 }
 
 mysqli_query($con, $query);
