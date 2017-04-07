@@ -40,7 +40,7 @@ if(preg_match($username)==1)
   $username = filter($username);
 }
 
-$select = mysql_query("SELECT `Email` FROM `User` WHERE `Email` = '$email'") or exit(mysql_error());
+$select = mysql_query("SELECT `Email` FROM `SnackTally`.`User` WHERE `Email` = '$email'") or exit(mysql_error());
 if(mysql_num_rows($select))
 {
     $emailErr = "Email already exists";
