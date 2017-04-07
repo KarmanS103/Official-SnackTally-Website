@@ -25,20 +25,25 @@ $username = $_POST["USN"];
 $password = $_POST["Pass"];
 $passver = $_POST["PassVer"];
 
+$gate = True;
+
 $nameErr = $emailErr = $passErr = $websiteErr = "";
 if($password != $passver)
 {
   $passErr = "Passwords do not match";
+  $gate = False;
 }
 
 if(preg_match($username)==1)
 {
   $nameErr = "Username cannot have spaces";
+  $gate = False;
 }
 
-$select = mysql_query("SELECT `email` FROM `game` WHERE `email` = '$email'") or exit(mysql_error());
+$select = mysql_query("SELECT `Email` FROM `User` WHERE `Email` = '$email'") or exit(mysql_error());
 if(mysql_num_rows($select))
     $emailErr = "Email already exists";
+    $gate = False;
 
 if($password == $passver){
 $query = "INSERT INTO `SnackTally`.`User` (`Email`, `First Name`,
