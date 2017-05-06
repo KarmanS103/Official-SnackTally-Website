@@ -5,6 +5,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet" />
 	<link href="apple-touch-icon.png" rel="apple-touch-icon" /><!-- Place favicon.ico in the root directory -->
 	<link href="styles/main.css" rel="stylesheet" /><script src="scripts/vendor/modernizr.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body><!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>tutdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -20,7 +21,7 @@
 <div class="cover-content-container">
 <div class="cover-content">
 <div class="col-md-6 col-sm-6 col-xs-6 col col-left">
-<div>Decide where to eat
+<div>Decide Where to Eat
 <div class="light">Hassle free!</div>
 
 <div class="button-align"><button data-target="#signUpModal" data-toggle="modal">Sign up now</button></div>
@@ -49,7 +50,7 @@
 <div class="item-content">A centralized eating experience that allows you and your group of friends to vote where to chow down. A built-in chat feature allows you to stay.</div>
 </div>
 <div class="col-md-4 info-item">
-<div class="item-header">No Fustration</div>
+<div class="item-header">No Frustration</div>
 <div class="item-icon"><img src="images/iconmonstr-smiley-2-240.png" /><img /></div>
 <div class="item-content">Snacktally brings up two different random restaurants nearby. Our beautiful design contains big and intuitive buttons for ease of use.</div>
 </div>
@@ -73,6 +74,7 @@
 	</div>
 	<div class="bottom-column-right">
 		<p> © 2016-2017 SnackTally Inc. All Rights Reserved</p>
+                <a href="https://www.snacktally.com/privacypolicy.htm">Privacy Policy</a>
 	</div>
 </div>
 
@@ -81,17 +83,52 @@
 <div class="modal-content">
 <h1>Sign up</h1>
 
-<form action="connectdb.php" method="post">
-<div class="form-item"><label>Username <input type ="text" id="USN" name="USN" required type ="text"/> <label> </label></label></div>
+<form id="userform" action="connectdb.php" method="post">
+<div class="form-item" id = "usernameField"><label>Username <input type ="text" id="USN" name="USN" required type ="text"/> <label> </label></label></div>
 
-<div class="form-item"><label>Email Address <input type ="email" id="Email" name="Email" required type="text"/> <label> </label></label></div>
+<div class="form-item" id = "emailField"><label>Email Address <input type ="email" id="Email" name="Email" required type="text"/> <label> </label></label></div>
 
-<div class="form-item"><label>Password <input type ="password" id ="Pass" name="Pass" required type ="text"/> <label> </label></label></div>
+<div class="form-item" id = "passField"><label>Password <input type ="password" id ="Pass" name="Pass" required type ="text"/> <label> </label></label></div>
 
-<div class="form-item"><label>Confirm Password <input type ="password" id ="PassVer" name="PassVer" required type ="text"> <label> </label></label></div>
+<div class="form-item" id = "passVerField"><label>Confirm Password <input type ="password" id ="PassVer" name="PassVer" required type ="text"> <label> </label></label></div>
 
-<div class="modal-footer"><button class="primary" type ="Submit" value="Send Data">Sign up</button><button data-dismiss="modal" type="button">Close</button></div>
+<div class="modal-footer"><button id="submitbutton" class="primary" type ="Submit" value="Send Data">Sign up</button><button data-dismiss="modal" type="button">Close</button></div>
 </form>
+
+<script>
+
+$("#userform").submit(function(event){
+	var shallpass = true;
+	event.preventDefault();
+	var emailtext = {
+		email: $("#Email").val()
+	};
+
+$.post("emailcheck.php", emailtext, function(result){
+	if(result == '0')
+	{
+		$("#emailField").css("border-left", "2px solid #ff3333");
+		$("#passField").css("border-left", "2px solid #FCFCFC");
+		$("#passVerField").css("border-left", "2px solid #FCFCFC");
+		$( "h1" ).text( "Email Taken" ).css("color", "#ff3333");
+		shallpass = false;
+	}
+	else{
+		if($("#Pass").val() !== $("#PassVer").val()){
+				$("#passField").css("border-left", "2px solid #ff3333");
+				$("#emailField").css("border-left", "2px solid #FCFCFC");
+				$("#passVerField").css("border-left", "2px solid #ff3333");
+				$( "h1" ).text( "Wrong Password" ).css("color", "#ff3333");
+				shallpass = false;
+		}
+	}
+	if(shallpass === true)
+	{
+		$("#userform").submit();
+	}
+});
+});
+</script>
 
 <!--<div class="modal-footer"><button class="primary" type ="Submit" value="Send Data">Sign up</button><button data-dismiss="modal" type="button">Close</button></div>-->
 </div>
